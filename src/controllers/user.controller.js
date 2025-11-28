@@ -1,14 +1,58 @@
 import User from "../models/user.model.js";
 import { success, error } from "../utils/response.js";
-
-export const createUser = async (req, res) => {
+import dotenv from "dotenv";
+import { signIn, signUp } from "../services/auth.service.js";
+import { validationResult } from "express-validator";
+dotenv.config();
+export const signUpController = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    success(res, "User created successfully", user);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const formattedErrors = errors.array().map((e) => ({
+        field: e.param,
+        message: e.msg,
+      }));
+      return error(res, 400, formattedErrors[0].message, null);
+    }
+    const {name, email, password} = req.body
+    const user = await signUp({name, email, password})
+    return success(res, user,"User signed up successfully", 201);
   } catch (err) {
-    error(res, err.message);
+    return error(res, 400, err.message, err.errorCode);
   }
 };
+export const signInController = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const formattedErrors = errors.array().map((e) => ({
+        field: e.param,
+        message: e.msg,
+      }));
+      return error(res, 400, formattedErrors[0].message, null);
+    }
+    const { email, password } = req.body;
+    const user = await signIn({email, password});
+    return success(res, user,"User signed in successfully", 200);
+  } catch (err) {
+     return error(res, 401, err.message);
+  }
+};
+
+export const getProfileController = async (req, res) => {
+  try {
+    const user = req.user;
+    return success(
+      res,
+      user,
+      "User profile retrieved successfully",
+      200
+    );
+  } catch (err) {
+    return error(res, 500, err.message);
+  }
+};
+
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -47,5 +91,3 @@ export const deleteUser = async (req, res) => {
     error(res, err.message);
   }
 };
-
-

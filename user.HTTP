@@ -1,10 +1,20 @@
-POST http://localhost:3001/api/users
+# POST http://localhost:3001/api/auth/sign-up
+# Content-Type: application/json
+
+# {
+#   "name": "duc tinh",
+#   "email": "djasjdashdasjh@gmail.com",
+#   "password" : "123456"
+# }
+
+# POST http://localhost:3001/api/auth/sign-in
+# Content-Type: application/json
+
+# {
+#   "email": "djasjdashdasjh@gmail.com",
+#   "password" : "123456"
+# }
+
+GET http://localhost:3001/api/auth/me
 Content-Type: application/json
-
-{
-    "name": "Tinh",
-    "email": "tt@gmail.com",
-    "password": "123456",
-    "role": "user"
-}
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjkyM2Q3ZGNiZTkxNWFlMjYwMzM3ZCIsImlhdCI6MTc2NDMwNjIxMiwiZXhwIjoxNzY0MzkyNjEyfQ.VWtphHuHez_hwcuSNPoZJCQLKk3Lkg09OQiHmx5A7d8

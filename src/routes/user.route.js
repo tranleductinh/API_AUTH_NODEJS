@@ -1,8 +1,9 @@
 import express from "express";
-import { createUser } from "../controllers/user.controller.js";
+import { getAllUsers } from "../controllers/user.controller.js";
+import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", createUser);
+router.get("/", protect,getAllUsers);
 
 export default router;

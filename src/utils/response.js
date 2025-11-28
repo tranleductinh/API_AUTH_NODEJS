@@ -1,12 +1,12 @@
-export const success = (res, message, data = null) => {
-  return res.json({
+export const success = (res, data, message, statusCode = 200) => {
+  return res.status(statusCode).json({
     success: true,
     message,
     data,
   });
 };
 
-export const error = (res, message, status = 400, errorCode = null) => {
+export const error = (res, status, message, errorCode = null) => {
   return res.status(status).json({
     success: false,
     message,
