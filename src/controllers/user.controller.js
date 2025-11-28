@@ -15,7 +15,7 @@ export const signUpController = async (req, res) => {
       return error(res, 400, formattedErrors[0].message, null);
     }
     const {name, email, password} = req.body
-    const user = await signUp({name, email, password})
+    const user = await signUp({name: name, email: email.trim(), password: password.trim()})
     return success(res, user,"User signed up successfully", 201);
   } catch (err) {
     return error(res, 400, err.message, err.errorCode);
