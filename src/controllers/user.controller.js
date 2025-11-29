@@ -14,11 +14,15 @@ export const signUpController = async (req, res) => {
       }));
       return error(res, 400, formattedErrors[0].message, null);
     }
-    const {name, email, password} = req.body
-    const user = await signUp({name: name, email: email.trim(), password: password.trim()})
-    return success(res, user,"User signed up successfully", 201);
+    const { name, email, password } = req.body;
+    const user = await signUp({
+      name: name,
+      email: email.trim(),
+      password: password.trim(),
+    });
+    return success(res, user, "User signed up successfully", 201);
   } catch (err) {
-    return error(res, 400, err.message, err.errorCode);
+    return error(res, 401, err.message, err.errorCode);
   }
 };
 export const signInController = async (req, res) => {
@@ -32,43 +36,37 @@ export const signInController = async (req, res) => {
       return error(res, 400, formattedErrors[0].message, null);
     }
     const { email, password } = req.body;
-    const user = await signIn({email, password});
-    return success(res, user,"User signed in successfully", 200);
+    const user = await signIn({ email, password });
+    return success(res, user, "User signed in successfully", 200);
   } catch (err) {
-     return error(res, 401, err.message);
+    return error(res, 401, err.message);
   }
 };
 
 export const getProfileController = async (req, res) => {
   try {
     const user = req.user;
-    return success(
-      res,
-      user,
-      "User profile retrieved successfully",
-      200
-    );
+    return success(res, user, "User profile retrieved successfully", 200);
   } catch (err) {
     return error(res, 500, err.message);
   }
 };
 
-
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    success(res, "Users fetched successfully", users);
+    return success(res, users, "Users fetched successfully", 200);
   } catch (err) {
-    error(res, err.message);
+    return error(res, 500, err.message);
   }
 };
 
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    success(res, "User fetched successfully", user);
+    return success(res, user, "User fetched successfully", 200);
   } catch (err) {
-    error(res, err.message);
+    return error(res, 500, err.message);
   }
 };
 
@@ -77,17 +75,17 @@ export const updateUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    success(res, "User updated successfully", user);
+    return success(res, user, "User updated successfully", 201);
   } catch (err) {
-    error(res, err.message);
+    return error(res, 500, err.message);
   }
 };
 
 export const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    success(res, "User deleted successfully", user);
+    return success(res, user, "User deleted successfully", 201);
   } catch (err) {
-    error(res, err.message);
+    return error(res, 500, err.message);
   }
 };
