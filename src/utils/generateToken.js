@@ -3,5 +3,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const generateToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
-}
+  const accessToken = jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, {
+    expiresIn: process.env.JWT_ACCESS_EXPIRE,
+  });
+  const refreshToken = jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: process.env.JWT_REFRESH_EXPIRE,
+  });
+  return { accessToken, refreshToken };
+};

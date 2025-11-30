@@ -1,56 +1,8 @@
 import User from "../models/user.model.js";
 import { success, error } from "../utils/response.js";
 import dotenv from "dotenv";
-import { signIn, signUp } from "../services/auth.service.js";
-import { validationResult } from "express-validator";
 dotenv.config();
-export const signUpController = async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const formattedErrors = errors.array().map((e) => ({
-        field: e.param,
-        message: e.msg,
-      }));
-      return error(res, 400, formattedErrors[0].message, null);
-    }
-    const { name, email, password } = req.body;
-    const user = await signUp({
-      name: name,
-      email: email.trim(),
-      password: password.trim(),
-    });
-    return success(res, user, "User signed up successfully", 201);
-  } catch (err) {
-    return error(res, 401, err.message, err.errorCode);
-  }
-};
-export const signInController = async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const formattedErrors = errors.array().map((e) => ({
-        field: e.param,
-        message: e.msg,
-      }));
-      return error(res, 400, formattedErrors[0].message, null);
-    }
-    const { email, password } = req.body;
-    const user = await signIn({ email, password });
-    return success(res, user, "User signed in successfully", 200);
-  } catch (err) {
-    return error(res, 401, err.message);
-  }
-};
 
-export const getProfileController = async (req, res) => {
-  try {
-    const user = req.user;
-    return success(res, user, "User profile retrieved successfully", 200);
-  } catch (err) {
-    return error(res, 500, err.message);
-  }
-};
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -72,9 +24,12 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const findUser = await User.findById(req.params.id);
+    if (req.body.password) findUser.password = req.body.password;
+    if (req.body.name) findUser.name = req.body.name;
+    if (req.body.email) findUser.email = req.body.email;
+    if (req.body.role) findUser.role = req.body.role;
+    const user = await findUser.save();
     return success(res, user, "User updated successfully", 201);
   } catch (err) {
     return error(res, 500, err.message);

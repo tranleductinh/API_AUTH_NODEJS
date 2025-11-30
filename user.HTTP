@@ -1,20 +1,52 @@
-# POST http://localhost:3001/api/auth/sign-up
-# Content-Type: application/json
+###
+POST http://localhost:3001/api/auth/sign-in
+Content-Type: application/json
 
-# {
-#   "name": "duc tinh",
-#   "email": "djasjdashdasjh@gmail.com",
-#   "password" : "123456"
-# }
+{
+  "email": "tranle@gmail.com",
+  "password" : "123456"
+}
 
-# POST http://localhost:3001/api/auth/sign-in
-# Content-Type: application/json
+###
+POST http://localhost:3001/api/auth/sign-up
+Content-Type: application/json
 
-# {
-#   "email": "djasjdashdasjh@gmail.com",
-#   "password" : "123456"
-# }
+{
+  "name" : "tinh",
+  "email": "tranle@gmail.com",
+  "password" : "123456"
+}
 
+###
 GET http://localhost:3001/api/auth/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjkyM2Q3ZGNiZTkxNWFlMjYwMzM3ZCIsImlhdCI6MTc2NDMwNjIxMiwiZXhwIjoxNzY0MzkyNjEyfQ.VWtphHuHez_hwcuSNPoZJCQLKk3Lkg09OQiHmx5A7d8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmJmZmE1OTYzMGJmYzQxMGEyZWNkYyIsImlhdCI6MTc2NDQ5MTU5MiwiZXhwIjoxNzY0NDkxNjIyfQ.SNi8Q17IXwj_914WV390TxTfsydr71s0-vcIPpLQWS4
+
+###
+POST http://localhost:3001/api/auth/refresh-token
+Content-Type: application/json
+
+###
+POST http://localhost:3001/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmJmZmE1OTYzMGJmYzQxMGEyZWNkYyIsImlhdCI6MTc2NDQ5NDM5MCwiZXhwIjoxNzY0NDk0NDIwfQ.JQFdFnFQLvQBa4645xLWxx297KkB7T8ysmTDdnLh9r0
+Content-Type: application/json
+
+###
+PUT http://localhost:3001/api/user/update-user/692c1422f2ebb47ff7dbe74d
+Content-Type: application/json
+
+{
+  "name" : "tinhssssss",
+  "email": "tranle@gmail.com",
+  "password" : "123456",
+  "role": "admin"
+}
+
+###
+DELETE http://localhost:3001/api/user/delete-user/69293eb0ed426c0e82e5667b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmMxNDIyZjJlYmI0N2ZmN2RiZTc0ZCIsImlhdCI6MTc2NDQ5NzM4NiwiZXhwIjoxNzY0NDk3NDE2fQ.nN5lopBmSLmIMBnlAFXmK4nxDvNMESMTttQd9G3cAwE
+
+
+
+
